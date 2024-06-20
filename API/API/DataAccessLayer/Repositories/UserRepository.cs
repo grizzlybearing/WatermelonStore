@@ -1,4 +1,5 @@
 ﻿using API.DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.DataAccessLayer.Repositories
 {
@@ -11,29 +12,54 @@ namespace API.DataAccessLayer.Repositories
             _dbContext = dbContext;
         }
 
-        public User Create(User item)
+        public async Task<User> Create(User item)
         {
-            throw new NotImplementedException();
+            await _dbContext.AddAsync(item);
+            await _dbContext.SaveChangesAsync();
+            return item;
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            int res = await _dbContext.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
+            await _dbContext.SaveChangesAsync();
+            return res;
         }
 
-        public User Get(int id)
+        public async Task<User?> Get(int id)
         {
-            throw new NotImplementedException();
+            var res = await _dbContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            return res;
         }
 
-        public List<User> GetAll()
+        public Task<List<User>> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Users.ToListAsync();
         }
 
-        public User Update(User item)
+        public async Task<User?> Update(User item)
         {
-            throw new NotImplementedException();
+            var res = await _dbContext.Users.Where(u => u.Id == item.Id).FirstOrDefaultAsync();
+            User u;
+            if (res == null)
+            {
+                return res;
+            }
+            else
+            {
+                u = res;
+                if (item.Email != null)
+                {
+                    u.Email = item.Email;
+                }
+                if (item.Password != null)
+                {
+                    u.Password = item.Password;
+                }
+                _dbContext.Update(u);
+                await _dbContext.SaveChangesAsync();
+                return u;
+            }
         }
     }
 }
