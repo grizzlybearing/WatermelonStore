@@ -2,9 +2,9 @@
 {
     public interface IProductRepository<Product>
     {
-        List<Product> GetAll();
-        IQueryable<Product> GetByCategory(int? category);
-        Product GetbyId(int? id);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<Product>> GetByCategoryAsync(int? category);
+        Task<Product> GetbyIdAsync(int? id);
         void CreateAsync(Product? item);
         void UpdateAsync(Product? item);
         void DeleteAsync(int? id);

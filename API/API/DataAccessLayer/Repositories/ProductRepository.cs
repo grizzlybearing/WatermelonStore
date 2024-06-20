@@ -8,7 +8,6 @@ namespace API.DataAccessLayer.Repositories
     public class ProductRepository : IProductRepository<Product>
     {
         private ShopdbContext _dbContext;
-        ShopdbContext db;
 
         public ProductRepository(ShopdbContext dbContext) {
             _dbContext = dbContext;
@@ -19,7 +18,7 @@ namespace API.DataAccessLayer.Repositories
             if (product != null)
             {
                 _dbContext.Products.Add(product);
-                await db.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
             else throw new Exception("Object is Null");
         }
@@ -27,11 +26,11 @@ namespace API.DataAccessLayer.Repositories
         public async void DeleteAsync(int? id) {
             if (id != null)
             {
-                Product? product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
+                Product? product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if (product != null)
                 {
                     _dbContext.Products.Remove(product);
-                    await db.SaveChangesAsync();
+                    await _dbContext.SaveChangesAsync();
                 }
                 else throw new Exception("Product is not found");
             }
@@ -42,24 +41,24 @@ namespace API.DataAccessLayer.Repositories
         {
             if (product != null)
             {
-                db.Products.Update(product);
-                await db.SaveChangesAsync();
+                _dbContext.Products.Update(product);
+                await _dbContext.SaveChangesAsync();
             }
             else throw new Exception("Product is not selected");
 
         }
 
-        public List<Product> GetAll()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            if (db.Products == null) throw new Exception("Products are not found");
-            else return db.Products.ToList();
+            if (_dbContext.Products == null) throw new Exception("Products are not found");
+            else return await _dbContext.Products.ToListAsync();
         }
 
-        public Product GetbyId(int? id)
+        public async Task<Product> GetbyIdAsync(int? id)
         {
             if (id != null)
             {
-                Product? product = db.Products.FirstOrDefault(p => p.Id == id);
+                var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if (product != null)
                 {
                     return product;
@@ -69,11 +68,11 @@ namespace API.DataAccessLayer.Repositories
             else throw new Exception("Product is not selected");
         }
 
-        public IQueryable<Product> GetByCategory(int? category)
+        public async Task<IEnumerable<Product>> GetByCategoryAsync(int? category)
         {
             if (category != null)
             {
-                var products = db.Products.Where(p=> p.CategoryId == category);
+                var products = _dbContext.Products.Where(p=> p.CategoryId == category);
                 if (products != null)
                 {
                     return products;
