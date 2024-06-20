@@ -11,27 +11,27 @@ namespace API.DataAccessLayer.Repositories
             _dbContext = dbContext;
         }
 
-        public User Create(User item)
+        public async Task<User> Create(User item)
         {
             throw new NotImplementedException();
         }
 
-        public int Delete(int id)
+        public Task<int> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public User Get(int id)
+        public Task<User> Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<User> GetAll()
+        public Task<List<User>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public User Update(User item)
+        public Task<User> Update(User item)
         {
             throw new NotImplementedException();
         }
