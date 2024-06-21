@@ -34,9 +34,9 @@ namespace API.DataAccessLayer.Repositories
 
         public async Task<T> UpdateAsync(T newEntity, CancellationToken cancellationToken = default)
         {
-            await DeleteAsync(newEntity.Id, cancellationToken);
-            var res = await CreateAsync(newEntity, cancellationToken);
-            return res;
+            _context.Update(newEntity);
+            await _context.SaveChangesAsync(cancellationToken);
+            return newEntity;
         }
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken = default)

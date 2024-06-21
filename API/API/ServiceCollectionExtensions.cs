@@ -2,6 +2,9 @@
 using API.DataAccessLayer;
 using API.DataAccessLayer.Interfaces;
 using API.DataAccessLayer.Repositories;
+using API.BusinessLogicLayer.DTO.User;
+using API.BusinessLogicLayer.Validators.User;
+using FluentValidation;
 
 public static class ServiceCollectionExtensions
 {
@@ -13,6 +16,9 @@ public static class ServiceCollectionExtensions
             options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 35))));
 
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IValidator<UserAddDTO>, UserAddDTOValidator>();
+        services.AddTransient<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
+        services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
 
         return services;
     }
