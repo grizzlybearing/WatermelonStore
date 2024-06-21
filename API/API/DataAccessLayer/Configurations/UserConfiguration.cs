@@ -14,13 +14,13 @@ namespace API.DataAccessLayer.Configurations
 
             builder.HasIndex(u => u.Email).IsUnique();
 
-            builder.Property(u => u.Id).ValueGeneratedOnAdd()
+            builder.Property(u => u.Id)
                 .HasColumnName("id");
 
-            builder.Property(u => u.Password)
-                .HasMaxLength(30)
+            builder.Property(u => u.PasswordHash)
+                .HasMaxLength(100)
                 .IsRequired()
-                .HasColumnName("password");
+                .HasColumnName("password_hash");
 
             builder.Property(u => u.Email)
                 .HasMaxLength(100)
