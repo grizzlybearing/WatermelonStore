@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using API.DataAccessLayer.Models;
 using System.Numerics;
+using System.Reflection;
 
 namespace API.DataAccessLayer
 {
@@ -9,6 +10,7 @@ namespace API.DataAccessLayer
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<User> Users { get; set; }
 
         string login = "";
         string password = "";
@@ -24,6 +26,8 @@ namespace API.DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
             modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<Category>().Property(p => p.Name).IsRequired().HasColumnType("varchar");
             modelBuilder.Entity<Category>().HasMany(p => p.Products);

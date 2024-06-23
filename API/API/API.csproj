@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="BusinessLogicLayer\" />
-    <Folder Include="DataAccessLayer\Repositories\" />
     <Folder Include="PresentationLayer\Controllers\" />
   </ItemGroup>
 
