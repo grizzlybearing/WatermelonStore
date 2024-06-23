@@ -1,59 +1,18 @@
-﻿using API.DataAccessLayer.Models;
+﻿using API.DataAccessLayer.Interfaces;
+using API.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 
 namespace API.DataAccessLayer.Repositories
 {
-    public class CategoryRepository : ICategoryRepository<Category>
+    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        private ShopdbContext _dbContext;
+        private ShopdbContext _context;
 
-
-        public CategoryRepository(ShopdbContext dbContext)
+        public CategoryRepository(ShopdbContext context) : base(context)
         {
-            _dbContext = dbContext;
-        }
-
-        public async void CreateAsync(Category category)
-        {
-            if (category != null)
-            {
-                _dbContext.Categories.Add(category);
-                await _dbContext.SaveChangesAsync();
-            }
-            else throw new Exception("Object is Null");
-        }
-
-        public async void DeleteAsync(int? id)
-        {
-            if (id != null)
-            {
-                Category? category = await _dbContext.Categories.FirstOrDefaultAsync(p => p.Id == id);
-                if (category != null)
-                {
-                    _dbContext.Categories.Remove(category);
-                    await _dbContext.SaveChangesAsync();
-                }
-                else throw new Exception("Category is not found");
-            }
-            else throw new Exception("Category is not selected");
-        }
-
-        public async void UpdateAsync(Category category)
-        {
-            if (category != null)
-            {
-                _dbContext.Categories.Update(category);
-                await _dbContext.SaveChangesAsync();
-            }
-            else throw new Exception("Category is not selected");
-        }
-
-        public async Task<IEnumerable<Category>> GetAllAsync()
-        {
-            if (_dbContext.Categories == null) throw new Exception("Categories are not found");
-            else return await _dbContext.Categories.ToListAsync();
+            _context = context;
         }
 
     }

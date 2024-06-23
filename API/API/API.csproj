@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="BusinessLogicLayer\Validators\Product\" />
+    <Folder Include="BusinessLogicLayer\Validators\Category\" />
     <Folder Include="PresentationLayer\Controllers\" />
   </ItemGroup>
 

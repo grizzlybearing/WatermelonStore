@@ -11,6 +11,8 @@ namespace API.DataAccessLayer
         private readonly IConfiguration _configuration;
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public ShopdbContext(DbContextOptions<ShopdbContext> options, IConfiguration configuration)
             : base(options)
