@@ -1,53 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API.DataAccessLayer.Interfaces;
 using API.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.DataAccessLayer.Repositories
 {
-    public class OrdersRepository : IOrdersRepository
+    public class OrdersRepository : BaseRepository<Orders>, IOrdersRepository
     {
-        private readonly ShopdbContext _dbContext;
+        private readonly ShopdbContext _context;
 
-        public OrdersRepository(ShopdbContext dbContext)
+        public OrdersRepository(ShopdbContext context) : base(context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
-        public async Task<Orders> CreateOrderAsync(Orders order)
+        public async Task<IEnumerable<Orders>> GetOrdersByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
         {
-            _dbContext.Orders.Add(order);
-            await _dbContext.SaveChangesAsync();
-            return order;
+            return await _context.Orders
+                                 .Where(order => order.UserId == userId)
+                                 .Include(order => order.User)
+                                 .Include(order => order.OrderItems)
+                                 .ThenInclude(orderItem => orderItem.Product)
+                                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Orders>> GetAllOrdersAsync()
+        public async Task<Orders?> GetOrderByIdAsync(Guid orderId, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Orders
-                                    .Include(o => o.User)
-                                    .Include(o => o.OrderItems)
-                                        .ThenInclude(oi => oi.Product)
-                                    .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Orders>> GetOrdersByUserIdAsync(int userId)
-        {
-            return await _dbContext.Orders
-                                    .Where(o => o.UserId == userId)
-                                    .Include(o => o.User)
-                                    .Include(o => o.OrderItems)
-                                        .ThenInclude(oi => oi.Product)
-                                    .ToListAsync();
-        }
-
-        public async Task<Orders> GetOrderByIdAsync(int orderId)
-        {
-            return await _dbContext.Orders
-                                    .Include(o => o.User)
-                                    .Include(o => o.OrderItems)
-                                        .ThenInclude(oi => oi.Product)
-                                    .FirstOrDefaultAsync(o => o.Id == orderId);
+            return await _context.Orders
+                                 .Include(order => order.User)
+                                 .Include(order => order.OrderItems)
+                                 .ThenInclude(orderItem => orderItem.Product)
+                                 .FirstOrDefaultAsync(order => order.Id == orderId, cancellationToken);
         }
     }
 }

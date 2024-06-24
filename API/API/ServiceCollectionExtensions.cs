@@ -9,6 +9,10 @@ using API.BusinessLogicLayer.DTO.Category;
 using API.BusinessLogicLayer.Validators.Category;
 using API.BusinessLogicLayer.DTO.Product;
 using API.BusinessLogicLayer.Validators.Product;
+using API.BusinessLogicLayer.DTO.Orders;
+using API.BusinessLogicLayer.Validators.Orders;
+using API.BusinessLogicLayer.DTO.OrderItems;
+using API.BusinessLogicLayer.Validators.OrderItems;
 
 public static class ServiceCollectionExtensions
 {
@@ -34,6 +38,15 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IValidator<ProductUpdateDTO>, ProductUpdateDTOValidator>();
         services.AddTransient<IValidator<ProductDTO>, ProductDTOValidator>();
 
+        services.AddTransient<IOrdersRepository, OrdersRepository>();
+        services.AddTransient<IValidator<OrdersAddDTO>, OrdersAddDTOValidator>();
+        services.AddTransient<IValidator<OrdersUpdateDTO>, OrdersUpdateDTOValidator>();
+        services.AddTransient<IValidator<OrdersUpdateDTO>, OrdersUpdateDTOValidator>();
+
+        services.AddTransient<IOrderItemsRepository, OrderItemsRepository>();
+        services.AddTransient<IValidator<OrderItemsAddDTO>, OrderItemsAddDTOValidator>();
+        services.AddTransient<IValidator<OrderItemsUpdateDTO>, OrderItemsUpdateDTOValidator>();
+        services.AddTransient<IValidator<OrderItemsUpdateDTO>, OrderItemsUpdateDTOValidator>();
         return services;
     }
 }

@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API.DataAccessLayer.Interfaces;
 using API.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.DataAccessLayer.Repositories
 {
-    public class OrderItemsRepository : IOrderItemsRepository
+    public class OrderItemsRepository : BaseRepository<OrderItems>, IOrderItemsRepository
     {
-        private readonly ShopdbContext _dbContext;
+        private readonly ShopdbContext _context;
 
-        public OrderItemsRepository(ShopdbContext dbContext)
+        public OrderItemsRepository(ShopdbContext context) : base(context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
-        public async Task<IEnumerable<OrderItems>> GetOrderItemsByOrderIdAsync(int orderId)
+        public async Task<IEnumerable<OrderItems>> GetOrderItemsByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.OrderItems
-                                    .Where(oi => oi.OrderId == orderId)
-                                    .Include(oi => oi.Product)
-                                    .ToListAsync();
+            return await _context.OrderItems
+                                 .Where(item => item.OrderId == orderId)
+                                 .Include(item => item.Product)
+                                 .ToListAsync(cancellationToken);
         }
     }
 }
