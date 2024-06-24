@@ -6,9 +6,8 @@ namespace API.DataAccessLayer.Interfaces
 {
     public interface IOrdersRepository
     {
-        Task<Orders> CreateOrderAsync(Orders order);
-        Task<IEnumerable<Orders>> GetAllOrdersAsync();
-        Task<IEnumerable<Orders>> GetOrdersByUserIdAsync(int userId);
-        Task<Orders> GetOrderByIdAsync(int orderId);
+      
+        Task<IEnumerable<Orders>> GetOrdersByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+        Task<Orders> GetOrderByIdAsync(Guid orderId, CancellationToken cancellationToken = default);
     }
 }

@@ -13,7 +13,7 @@ namespace API.DataAccessLayer.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<OrderItems>> GetItemsByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<OrderItems>> GetOrderItemsByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
         {
             return await _context.OrderItems
                                  .Where(item => item.OrderId == orderId)

@@ -6,6 +6,6 @@ namespace API.DataAccessLayer.Repositories
 {
     public interface IOrderItemsRepository
     {
-        Task<IEnumerable<OrderItems>> GetOrderItemsByOrderIdAsync(int orderId);
+        Task<IEnumerable<OrderItems>> GetOrderItemsByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
     }
 }
