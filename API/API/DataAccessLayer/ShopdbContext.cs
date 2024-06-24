@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using API.DataAccessLayer.Models;
 using System.Numerics;
 using System.Reflection;
@@ -13,6 +13,8 @@ namespace API.DataAccessLayer
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
 
         public ShopdbContext(DbContextOptions<ShopdbContext> options, IConfiguration configuration)
             : base(options)
