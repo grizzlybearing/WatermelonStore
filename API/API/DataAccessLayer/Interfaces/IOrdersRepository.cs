@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using API.DataAccessLayer.Models;
 
-namespace API.DataAccessLayer.Repositories
+namespace API.DataAccessLayer.Interfaces
 {
     public interface IOrdersRepository
     {
