@@ -4,7 +4,7 @@ using API.DataAccessLayer.Models;
 
 namespace API.DataAccessLayer.Interfaces
 {
-    public interface IOrdersRepository
+    public interface IOrdersRepository: IBaseRespository<Orders>
     {
       
         Task<IEnumerable<Orders>> GetOrdersByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
