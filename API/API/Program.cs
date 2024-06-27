@@ -5,14 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDatabaseAndRepositories(builder.Configuration);
 
-builder.Services.AddSingleton<IMapper>(sp =>
+builder.Services.AddAutoMapper(cfg =>
 {
-    var mapperConfiguration = new MapperConfiguration(cfg =>
-    {
-        cfg.AddProfile<MappingProfile>();
-    });
-
-    return new Mapper(mapperConfiguration);
+    cfg.AddProfile<UserMappingProfile>();
+    cfg.AddProfile<ProductMappingProfile>();
+    cfg.AddProfile<CategoryMappingProfile>();
+    cfg.AddProfile<OrdersMappingProfile>();
+    cfg.AddProfile<OrderItemsMappingProfile>();
 });
 
 builder.Services.AddControllers();  
